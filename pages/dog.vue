@@ -8,12 +8,8 @@
 
     <template #footer>
       <UButton @click="insertRecord('pee')"> Add pee </UButton>
-      <UToggle
-        size="2xl"
-        v-model="isOutdoors"
-        on-icon="i-heroicons-sun"
-        off-icon="i-heroicons-home"
-      ></UToggle>
+      <UToggle v-model="isOutdoors" size="xl" />
+
       <UButton @click="insertRecord('poop')"> Add poop </UButton>
     </template>
   </UCard>
