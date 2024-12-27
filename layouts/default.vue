@@ -5,6 +5,7 @@
         <div class="flex items-center justify-between">
           <div class="text-lg font-bold">Dog log</div>
           <nav class="flex space-x-4">image?</nav>
+          <UAvatar :src="user.user_metadata.avatar_url" alt="Avatar" />
         </div>
       </div>
     </header>
@@ -21,8 +22,6 @@
   </div>
 </template>
 
-<script setup></script>
-
-<style scoped>
-/* Add any specific styling overrides here */
-</style>
+<script setup>
+const user = useSupabaseUser();
+</script>
