@@ -5,7 +5,6 @@
       <VChart :option="chartOption" />
     </div>
     <template #footer>
-      <UCheckbox help="Outdoors" v-model="isOutdoors" />
       <UButton @click="refresh" :loading="status === 'pending'">
         Refresh
       </UButton>
@@ -18,35 +17,31 @@
 // TODO: Change the color
 import { Tables } from "~/types/database.types";
 type GraphViewRow = Tables<"graph_view">;
-const isOutdoors = ref(true);
 const { data, refresh, error, status } = await useFetch<GraphViewRow[]>(
-  "/api/graph"
-);
+  "/api/graph",
+  {
+    transform: (data) =>
+      data.reduce((acc, curr) => {
+        let entry = acc.find((item: GraphViewRow) => item.date === curr.date);
+        if (!entry) {
+          entry = {
+            date: curr.date,
+            poop: { indoors: 0, outdoors: 0 },
+            pee: { indoors: 0, outdoors: 0 },
+          };
+          acc.push(entry);
+        }
 
-const transformedData = computed(() => {
-  if (data.value === null) {
-    return;
+        if (curr.type === "poop") {
+          entry.poop[curr.location] += curr.count;
+        } else if (curr.type === "pee") {
+          entry.pee[curr.location] += curr.count;
+        }
+
+        return acc;
+      }, []),
   }
-  return data.value.reduce((acc, curr) => {
-    let entry = acc.find((item: GraphViewRow) => item.date === curr.date);
-    if (!entry) {
-      entry = {
-        date: curr.date,
-        poop: { indoors: 0, outdoors: 0 },
-        pee: { indoors: 0, outdoors: 0 },
-      };
-      acc.push(entry);
-    }
-
-    if (curr.type === "poop") {
-      entry.poop[curr.location] += curr.count;
-    } else if (curr.type === "pee") {
-      entry.pee[curr.location] += curr.count;
-    }
-
-    return acc;
-  }, []);
-});
+);
 
 const chartOption = ref({
   tooltip: {
@@ -63,7 +58,7 @@ const chartOption = ref({
   },
   xAxis: {
     type: "category",
-    data: transformedData.value.map((item: GraphViewRow) => item.date),
+    data: data.value?.map((item: GraphViewRow) => item.date),
   },
   yAxis: {
     type: "value",
@@ -81,9 +76,7 @@ const chartOption = ref({
       name: "poop_indoors",
       type: "bar",
       stack: "poop",
-      data: transformedData.value.map(
-        (item: GraphViewRow) => item.poop.indoors
-      ),
+      data: data.value?.map((item: GraphViewRow) => item.poop.indoors),
       itemStyle: {
         color: "#8B0000",
       },
@@ -92,9 +85,7 @@ const chartOption = ref({
       name: "poop_outdoors",
       type: "bar",
       stack: "poop",
-      data: transformedData.value.map(
-        (item: GraphViewRow) => item.poop.outdoors
-      ),
+      data: data.value?.map((item: GraphViewRow) => item.poop.outdoors),
       itemStyle: {
         color: "#bf8888",
       },
@@ -103,7 +94,7 @@ const chartOption = ref({
       name: "pee_indoors",
       type: "bar",
       stack: "pee",
-      data: transformedData.value.map((item: GraphViewRow) => item.pee.indoors),
+      data: data.value?.map((item: GraphViewRow) => item.pee.indoors),
       itemStyle: {
         color: "#f2b957",
       },
@@ -112,9 +103,7 @@ const chartOption = ref({
       name: "pee_outdoors",
       type: "bar",
       stack: "pee",
-      data: transformedData.value.map(
-        (item: GraphViewRow) => item.pee.outdoors
-      ),
+      data: data.value?.map((item: GraphViewRow) => item.pee.outdoors),
       itemStyle: {
         color: "#e8c992",
       },
@@ -122,7 +111,7 @@ const chartOption = ref({
     {
       name: "poop_line",
       type: "line",
-      data: transformedData.value.map(
+      data: data.value?.map(
         (item: GraphViewRow) => item.pee.indoors + item.poop.indoors
       ),
       itemStyle: {
