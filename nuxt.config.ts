@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/supabase", "@nuxt/ui", "nuxt-echarts", "@nuxt/eslint"],
   supabase: {
     redirectOptions: {
-      login: "/",
+      login: "/login",
       callback: "/",
     },
 
