@@ -5,7 +5,11 @@
         <div class="flex items-center justify-between">
           <div class="text-lg font-bold">Dog log</div>
           <nav class="flex space-x-4">image?</nav>
-          <UAvatar :src="user.user_metadata.avatar_url" alt="Avatar" />
+          <UAvatar
+            v-if="user"
+            :src="user.user_metadata.avatar_url"
+            alt="Avatar"
+          />
         </div>
       </div>
     </header>
