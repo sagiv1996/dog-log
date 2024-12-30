@@ -16,17 +16,11 @@
 <script setup lang="ts">
 // TODO: Change the graph to be 1 for pee, and one for poop
 // TODO: Change the color
-import { Database } from "~/types/database.types";
-type GraphViewRow = Database["public"]["Tables"]["graph_view"]["Row"];
-const client = useSupabaseClient();
+import { Tables } from "~/types/database.types";
+type GraphViewRow = Tables<"graph_view">;
 const isOutdoors = ref(true);
-const { data, refresh, error, status } = await useAsyncData<GraphViewRow[]>(
-  "fetchDogData",
-  async () => {
-    const { data, error } = await client.from("graph_view").select("*");
-    if (error) throw error;
-    return data;
-  }
+const { data, refresh, error, status } = await useFetch<GraphViewRow[]>(
+  "/api/graph"
 );
 
 const transformedData = computed(() => {
