@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Database } from "~~/types/database.types";
+import type { Database } from "~~/types/database.types";
 
 export type DogExcretionsInsert =
   Database["public"]["Tables"]["dog_excretions"]["Insert"];
