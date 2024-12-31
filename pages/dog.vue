@@ -1,6 +1,8 @@
 <template>
   <UCard>
-    <template #header> header </template>
+    <template #header
+      ><UButton label="To add data" block size="large" to="/"
+    /></template>
     <div style="height: 500px">
       <VChart :option="chartOption" />
     </div>
