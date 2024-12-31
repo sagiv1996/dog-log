@@ -22,7 +22,7 @@
       </div>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 py-6">
+    <main class="container mx-auto">
       <slot />
     </main>
 
@@ -31,6 +31,7 @@
         © 2024 Dog log. All rights reserved.
       </div>
     </footer>
+    <UNotifications />
   </div>
 </template>
 
