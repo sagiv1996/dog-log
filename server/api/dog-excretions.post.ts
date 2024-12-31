@@ -1,7 +1,7 @@
 import { serverSupabaseClient, serverSupabaseUser } from "#supabase/server";
 import type { Database } from "~~/types/database.types";
 import { z } from "zod";
-import { dogExcretionValidationSchema } from "~/shared/schemas/dogExcretions/dogExcretionValidationSchema";
+import { dogExcretionValidationSchema } from "~/shared/schemas/dogExcretionValidationSchema";
 
 export default defineEventHandler(async (event) => {
   try {
