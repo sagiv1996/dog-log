@@ -1,6 +1,13 @@
 <template>
   <UCard>
-    <template #header> Add row {{ date }}, {{ status }}</template>
+    <template #header>
+      <USelect
+        v-model="selectedDog"
+        :options="dogs"
+        option-attribute="name"
+        value-attribute="id" />
+      <UButton label="View graph" block size="large" to="/dog"
+    /></template>
     <UForm class="space-y-4">
       <div class="grid grid-cols-3 gap-6 justify-items-center">
         <UButton
@@ -26,21 +33,31 @@
           @click="onSubmit('poop')"
         />
       </div>
-      <UButton label="Submit" block size="large" type="submit" />
     </UForm>
   </UCard>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { Tables } from "~/types/database.types";
+type DogRow = Tables<"dog">;
+
 const isOutDoors = ref<boolean>(true);
 const client = useSupabaseClient();
+const selectedDog = ref();
+const {
+  data: dogs,
+  error,
+  status,
+} = await useFetch<DogRow[]>("api/dog", {
+  onResponse: ({ response }) => {
+    try {
+      selectedDog.value = response._data[0].id;
+    } catch (e) {
+      console.warn("Dog are not found for this user");
+    }
+  },
+});
 const onSubmit = async (type: "poop" | "pee") => {
-  // const { date, error } = await client.from("dog_excretions").insert({
-  //   dog_id: 1,
-  //   location: isOutDoors.value ? "outdoors" : "indoors",
-  //   type,
-  // });
   const { data, error } = await useFetch("/api/dog-excretions", {
     method: "POST",
     body: {
