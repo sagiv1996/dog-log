@@ -38,13 +38,6 @@
           })
         "
       />
-      <UButton
-        color="black"
-        label="Log-ot"
-        icon="i-simple-icons-personio"
-        block
-        @click="client.auth.signOut()"
-      />
     </div>
   </UCard>
 </template>
