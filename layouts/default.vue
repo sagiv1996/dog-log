@@ -4,12 +4,20 @@
       <div class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
           <div class="text-lg font-bold">Dog log</div>
-          <nav class="flex space-x-4">image?</nav>
-          <UAvatar
-            v-if="user"
-            :src="user.user_metadata.avatar_url"
-            alt="Avatar"
-          />
+
+          <UPopover v-if="user">
+            <UAvatar :src="user.user_metadata.avatar_url" alt="Avatar" />
+
+            <template #panel>
+              <UButton
+                color="black"
+                label="Logout"
+                icon="i-simple-icons-personio"
+                block
+                @click="client.auth.signOut()"
+              />
+            </template>
+          </UPopover>
         </div>
       </div>
     </header>
@@ -26,6 +34,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const client = useSupabaseClient();
 const user = useSupabaseUser();
 </script>
