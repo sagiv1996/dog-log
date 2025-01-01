@@ -68,7 +68,7 @@ const state = reactive({
 });
 
 const isLoading = computed(() => {
-  return dogStatus === "pending" || dogExcretionsStatus === "pending";
+  return dogStatus.value === "pending" || dogExcretionsStatus.value === "pending";
 });
 const {
   data: dogs,
