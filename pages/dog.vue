@@ -1,11 +1,15 @@
 <template>
   <UCard>
     <template #header v-if="dogs?.length">
-      <USelect
-        v-model="selectedDog"
-        :options="dogsOptions"
-        option-attribute="name"
-        value-attribute="id" />
+      <UAvatarGroup size="sm" :max="2">
+        <UAvatar
+          v-for="(profile, index) in connectProfileData"
+          :key="index"
+          :src="profile.avatar_url"
+          :alt="profile.name"
+        />
+      </UAvatarGroup>
+      <USelect v-model="selectedDog" :options="dogsOptions" />
       <UButton label="View graph" block size="xl" to="/dashboard"
     /></template>
     <div class="grid grid-cols-3 gap-6 justify-items-center">
@@ -56,6 +60,7 @@
 <script setup lang="ts">
 import type { Tables } from "~/types/database.types";
 type DogRow = Tables<"dog">;
+type DogAccess = Tables<"dog_access">;
 const toast = useToast();
 
 const {
@@ -66,7 +71,12 @@ const {
 
 const isOutDoors = ref<boolean>(true);
 const dialogIsOpen = ref<boolean>(!dogs.value?.length);
-const selectedDog = ref(dogs.value?.[0]?.dog?.id);
+const selectedDog = ref(dogs.value?.[0]?.id);
+const connectProfileData = computed(() => {
+  return dogs.value
+    ?.find((entry) => entry.id == selectedDog.value)
+    ?.dog_access.map((da: DogAccess) => da.profile);
+});
 const type = ref<"poop" | "pee">("pee");
 
 const isLoading = computed(() => {
@@ -75,7 +85,9 @@ const isLoading = computed(() => {
   );
 });
 
-const dogsOptions = computed(() => dogs.value?.map((d) => d.dog));
+const dogsOptions = computed(() =>
+  dogs.value?.map((d) => ({ label: d.name, value: d.id }))
+);
 
 const handleDogAdded = () => {
   dialogIsOpen.value = false;
