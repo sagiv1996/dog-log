@@ -25,7 +25,11 @@
         label="Login with Google"
         icon="i-simple-icons-google"
         block
-        disabled
+        @click="
+          client.auth.signInWithOAuth({
+            provider: 'google',
+          })
+        "
       />
       <sign-in-by-otp />
     </div>
