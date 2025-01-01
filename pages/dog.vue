@@ -1,9 +1,9 @@
 <template>
   <UCard>
-    <template #header v-if="dogs">
+    <template #header v-if="dogs?.length">
       <USelect
         v-model="selectedDog"
-        :options="dogs"
+        :options="dogsOptions"
         option-attribute="name"
         value-attribute="id" />
       <UButton label="View graph" block size="xl" to="/dashboard"
@@ -16,7 +16,7 @@
         class="action-button"
         @click="handleClickTypeButton('pee')"
         :loading="isLoading"
-        :disabled="!dogs?.length"
+        :disabled="!selectedDog"
       />
       <div class="item-center">
         <UToggle
@@ -25,6 +25,7 @@
           v-model="isOutDoors"
           size="2xl"
           :loading="isLoading"
+          :disabled="!selectedDog"
         />
       </div>
       <UButton
@@ -34,7 +35,7 @@
         class="action-button"
         @click="handleClickTypeButton('poop')"
         :loading="isLoading"
-        :disabled="!dogs?.length"
+        :disabled="!selectedDog"
       />
     </div>
     <template #footer>
@@ -57,33 +58,24 @@ import type { Tables } from "~/types/database.types";
 type DogRow = Tables<"dog">;
 const toast = useToast();
 
-const dialogIsOpen = ref(false);
+const {
+  data: dogs,
+  refresh,
+  status: dogStatus,
+} = await useFetch<DogRow[]>("api/dog");
+
 const isOutDoors = ref<boolean>(true);
-const selectedDog = ref();
+const dialogIsOpen = ref<boolean>(!dogs.value?.length);
+const selectedDog = ref(dogs.value?.[0]?.dog?.id);
 const type = ref<"poop" | "pee">("pee");
-const state = reactive({
-  name: null,
-});
 
 const isLoading = computed(() => {
   return (
     dogStatus.value === "pending" || dogExcretionsStatus.value === "pending"
   );
 });
-const {
-  data: dogs,
-  refresh,
-  status: dogStatus,
-} = await useFetch<DogRow[]>("api/dog", {
-  onResponse: ({ response }) => {
-    try {
-      selectedDog.value = response._data[0].id;
-    } catch (e) {
-      dialogIsOpen.value = true;
-      console.warn("Dog are not found for this user");
-    }
-  },
-});
+
+const dogsOptions = computed(() => dogs.value?.map((d) => d.dog));
 
 const handleDogAdded = () => {
   dialogIsOpen.value = false;
@@ -94,6 +86,7 @@ const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
   type.value = selectedType;
   await addDogExcretions();
 };
+
 const { execute: addDogExcretions, status: dogExcretionsStatus } =
   await useFetch("/api/dog-excretions", {
     method: "POST",

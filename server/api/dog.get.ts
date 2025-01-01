@@ -1,7 +1,8 @@
 import { serverSupabaseClient } from "#supabase/server";
-import type { Database } from "~~/types/database.types";
 export default defineEventHandler(async (event) => {
-  const client = await serverSupabaseClient<Database>(event);
-  const { data } = await client.from("dog").select("");
+  const client = await serverSupabaseClient(event);
+  const { data } = await client
+    .from("dog_access")
+    .select("dog(id, name, birth_date), profile(*)");
   return data;
 });
