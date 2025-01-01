@@ -1,128 +1,110 @@
 <template>
   <UCard>
-    <template #header
-      ><UButton label="To add data" block size="large" to="/"
+    <template #header v-if="dogs">
+      <USelect
+        v-model="selectedDog"
+        :options="dogs"
+        option-attribute="name"
+        value-attribute="id" />
+      <UButton label="View graph" block size="xl" to="/dashboard"
     /></template>
-    <div style="height: 500px">
-      <VChart :option="chartOption" />
+    <div class="grid grid-cols-3 gap-6 justify-items-center">
+      <UButton
+        label="pee"
+        block
+        size="md"
+        class="action-button"
+        @click="handleClickTypeButton('pee')"
+        :loading="isLoading"
+        :disabled="!dogs?.length"
+      />
+      <div class="item-center">
+        <UToggle
+          on-icon="i-heroicons-sun"
+          off-icon="i-heroicons-home"
+          v-model="isOutDoors"
+          size="2xl"
+          :loading="isLoading"
+        />
+      </div>
+      <UButton
+        label="poop"
+        block
+        size="md"
+        class="action-button"
+        @click="handleClickTypeButton('poop')"
+        :loading="isLoading"
+        :disabled="!dogs?.length"
+      />
     </div>
     <template #footer>
-      <UButton @click="refresh" :loading="status === 'pending'">
-        Refresh
-      </UButton>
-    </template>
+      <UPopover
+        v-model:open="dialogIsOpen"
+        overlay
+        :popper="{ placement: 'bottom-start' }"
+      >
+        <UButton label="Add Dog" icon="i-heroicons-plus" />
+
+        <template #panel>
+          <create-new-dog @submit="handleDogAdded" :loading="isLoading" />
+        </template> </UPopover
+    ></template>
   </UCard>
 </template>
 
 <script setup lang="ts">
-// TODO: Change the graph to be 1 for pee, and one for poop
-// TODO: Change the color
-import { Tables } from "~/types/database.types";
-type GraphViewRow = Tables<"graph_view">;
-const { data, refresh, error, status } = await useFetch<GraphViewRow[]>(
-  "/api/graph",
-  {
-    transform: (data) =>
-      data.reduce((acc, curr) => {
-        let entry = acc.find((item: GraphViewRow) => item.date === curr.date);
-        if (!entry) {
-          entry = {
-            date: curr.date,
-            poop: { indoors: 0, outdoors: 0 },
-            pee: { indoors: 0, outdoors: 0 },
-          };
-          acc.push(entry);
-        }
+import type { Tables } from "~/types/database.types";
+type DogRow = Tables<"dog">;
+const toast = useToast();
 
-        if (curr.type === "poop") {
-          entry.poop[curr.location] += curr.count;
-        } else if (curr.type === "pee") {
-          entry.pee[curr.location] += curr.count;
-        }
-
-        return acc;
-      }, []),
-  }
-);
-
-const chartOption = ref({
-  tooltip: {
-    trigger: "axis",
-  },
-  legend: {
-    data: [
-      "poop_indoors",
-      "poop_outdoors",
-      "pee_indoors",
-      "pee_outdoors",
-      "poop_line",
-    ],
-  },
-  xAxis: {
-    type: "category",
-    data: data.value?.map((item: GraphViewRow) => item.date),
-  },
-  yAxis: {
-    type: "value",
-  },
-  dataZoom: [
-    {
-      type: "slider",
-    },
-    {
-      type: "inside",
-    },
-  ],
-  series: [
-    {
-      name: "poop_indoors",
-      type: "bar",
-      stack: "poop",
-      data: data.value?.map((item: GraphViewRow) => item.poop.indoors),
-      itemStyle: {
-        color: "#8B0000",
-      },
-    },
-    {
-      name: "poop_outdoors",
-      type: "bar",
-      stack: "poop",
-      data: data.value?.map((item: GraphViewRow) => item.poop.outdoors),
-      itemStyle: {
-        color: "#bf8888",
-      },
-    },
-    {
-      name: "pee_indoors",
-      type: "bar",
-      stack: "pee",
-      data: data.value?.map((item: GraphViewRow) => item.pee.indoors),
-      itemStyle: {
-        color: "#f2b957",
-      },
-    },
-    {
-      name: "pee_outdoors",
-      type: "bar",
-      stack: "pee",
-      data: data.value?.map((item: GraphViewRow) => item.pee.outdoors),
-      itemStyle: {
-        color: "#e8c992",
-      },
-    },
-    {
-      name: "poop_line",
-      type: "line",
-      data: data.value?.map(
-        (item: GraphViewRow) => item.pee.indoors + item.poop.indoors
-      ),
-      itemStyle: {
-        color: "#57f290",
-      },
-      lineStyle: {
-        width: 5,
-      },
-    },
-  ],
+const dialogIsOpen = ref(false);
+const isOutDoors = ref<boolean>(true);
+const selectedDog = ref();
+const type = ref<"poop" | "pee">("pee");
+const state = reactive({
+  name: null,
 });
+
+const isLoading = computed(() => {
+  return (
+    dogStatus.value === "pending" || dogExcretionsStatus.value === "pending"
+  );
+});
+const {
+  data: dogs,
+  refresh,
+  status: dogStatus,
+} = await useFetch<DogRow[]>("api/dog", {
+  onResponse: ({ response }) => {
+    try {
+      selectedDog.value = response._data[0].id;
+    } catch (e) {
+      dialogIsOpen.value = true;
+      console.warn("Dog are not found for this user");
+    }
+  },
+});
+
+const handleDogAdded = () => {
+  dialogIsOpen.value = false;
+  refresh();
+  toast.add({ title: "Record Added" });
+};
+const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
+  type.value = selectedType;
+  await addDogExcretions();
+};
+const { execute: addDogExcretions, status: dogExcretionsStatus } =
+  await useFetch("/api/dog-excretions", {
+    method: "POST",
+    body: {
+      dog_id: selectedDog.value,
+      location: isOutDoors.value ? "outdoors" : "indoors",
+      type: type.value,
+    },
+    immediate: false,
+    onResponse: ({ response }) => {
+      toast.add({ title: "Record Added" });
+    },
+  });
 </script>
