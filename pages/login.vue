@@ -27,17 +27,7 @@
         block
         disabled
       />
-      <UButton
-        color="black"
-        label="Login with OTP"
-        icon="i-simple-icons-maildotru"
-        block
-        @click="
-          client.auth.signInWithOtp({
-            email: 'sagivb13@gmail.com',
-          })
-        "
-      />
+      <sign-in-by-otp />
     </div>
   </UCard>
 </template>
