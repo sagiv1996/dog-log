@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from "#supabase/server";
+import { serverSupabaseClient } from "#supabase/server";
 import type { Database } from "~~/types/database.types";
 import { z } from "zod";
 import { dogExcretionValidationSchema } from "~/shared/utils/dogExcretionValidationSchema";
