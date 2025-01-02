@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
 
     const { dog_id, location, type } = dogExcretionValidationSchema.parse(body);
     const client = await serverSupabaseClient<Database>(event);
+    console.log(dog_id, location, type);
     const { data, error } = await client.from("dog_excretions").insert({
       dog_id,
       location,

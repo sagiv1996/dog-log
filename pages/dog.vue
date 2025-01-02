@@ -10,7 +10,11 @@
         />
       </UAvatarGroup>
       <USelect v-model="selectedDog" :options="dogsOptions" />
-      <UButton label="View graph" block size="xl" to="/dashboard"
+      <UButton
+        label="View graph"
+        block
+        size="xl"
+        :to="`/dashboard?id=${selectedDog}`"
     /></template>
     <div class="grid grid-cols-3 gap-6 justify-items-center">
       <UButton
@@ -71,18 +75,16 @@ const {
 
 const isOutDoors = ref<boolean>(true);
 const dialogIsOpen = ref<boolean>(!dogs.value?.length);
+const dogExcretionsIsLoading = ref<boolean>(false);
 const selectedDog = ref(dogs.value?.[0]?.id);
 const connectProfileData = computed(() => {
   return dogs.value
     ?.find((entry) => entry.id == selectedDog.value)
     ?.dog_access.map((da: DogAccess) => da.profile);
 });
-const type = ref<"poop" | "pee">("pee");
 
 const isLoading = computed(() => {
-  return (
-    dogStatus.value === "pending" || dogExcretionsStatus.value === "pending"
-  );
+  return dogStatus.value === "pending" || dogExcretionsIsLoading.value;
 });
 
 const dogsOptions = computed(() =>
@@ -95,21 +97,15 @@ const handleDogAdded = () => {
   toast.add({ title: "Record Added" });
 };
 const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
-  type.value = selectedType;
-  await addDogExcretions();
-};
-
-const { execute: addDogExcretions, status: dogExcretionsStatus } =
+  dogExcretionsIsLoading.value = true;
   await useFetch("/api/dog-excretions", {
     method: "POST",
     body: {
       dog_id: selectedDog.value,
       location: isOutDoors.value ? "outdoors" : "indoors",
-      type: type.value,
-    },
-    immediate: false,
-    onResponse: ({ response }) => {
-      toast.add({ title: "Record Added" });
+      type: selectedType,
     },
   });
+  dogExcretionsIsLoading.value = false;
+};
 </script>

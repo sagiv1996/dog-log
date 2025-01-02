@@ -15,33 +15,43 @@
 </template>
 
 <script setup lang="ts">
-// TODO: Change the graph to be 1 for pee, and one for poop
-// TODO: Change the color
 import { Tables } from "~/types/database.types";
+type DogRow = Tables<"dog">;
 type GraphViewRow = Tables<"graph_view">;
-const { data, refresh, error, status } = await useFetch<GraphViewRow[]>(
-  "/api/graph",
+type TransformedEntry = {
+  date: string;
+  poop: { indoors: number; outdoors: number };
+  pee: { indoors: number; outdoors: number };
+};
+
+const route = useRoute();
+const { id } = route.query;
+const { data, refresh, error, status } = await useFetch<DogRow>(
+  `/api/graph/${id}`,
   {
     transform: (data) =>
-      data.reduce((acc, curr) => {
-        let entry = acc.find((item: GraphViewRow) => item.date === curr.date);
-        if (!entry) {
-          entry = {
-            date: curr.date,
-            poop: { indoors: 0, outdoors: 0 },
-            pee: { indoors: 0, outdoors: 0 },
-          };
-          acc.push(entry);
-        }
+      data.graph_view.reduce<TransformedEntry[]>(
+        (acc: GraphViewRow[], curr: GraphViewRow) => {
+          let entry = acc.find((item: GraphViewRow) => item.date === curr.date);
+          if (!entry) {
+            entry = {
+              date: curr.date,
+              poop: { indoors: 0, outdoors: 0 },
+              pee: { indoors: 0, outdoors: 0 },
+            };
+            acc.push(entry);
+          }
 
-        if (curr.type === "poop") {
-          entry.poop[curr.location] += curr.count;
-        } else if (curr.type === "pee") {
-          entry.pee[curr.location] += curr.count;
-        }
+          if (curr.type === "poop") {
+            entry.poop[curr.location] += curr.count;
+          } else if (curr.type === "pee") {
+            entry.pee[curr.location] += curr.count;
+          }
 
-        return acc;
-      }, []),
+          return acc;
+        },
+        []
+      ),
   }
 );
 

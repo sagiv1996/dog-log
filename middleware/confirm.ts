@@ -5,5 +5,5 @@ export default defineNuxtRouteMiddleware((to, _from) => {
     return navigateTo("/login");
   }
   // Check if use from mobile or from pc
-  return navigateTo("/dashboard");
+  return navigateTo("/dog");
 });
