@@ -38,4 +38,9 @@
 <script setup lang="ts">
 const client = useSupabaseClient();
 const user = useSupabaseUser();
+watch(user, async () => {
+  if (!user.value) {
+    await navigateTo("/login");
+  }
+});
 </script>
