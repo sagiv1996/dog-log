@@ -60,7 +60,7 @@ const items = [
 ];
 
 const accessProfiles = computed(() =>
-  selectedDog.value?.dog_access.map((d: DogRow) => d.profile)
+  selectedDog.value?.dog_access?.map((d: DogRow) => d.profile)
 );
 const dialogAddDogIsOpen = ref(!dogs.value?.length);
 
