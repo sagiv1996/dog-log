@@ -1,17 +1,20 @@
 <template>
   <UCard class="h-screen">
-    <profiles
-      :profiles="accessProfiles"
-      :selected-dog="selectedDog.id"
-      @submit="refresh"
-    />
+    <div class="flex justify-between items-center">
+      <profiles
+        :profiles="accessProfiles"
+        :selected-dog="selectedDog.id"
+        @submit="refresh"
+      />
+      <USelectMenu
+        v-model="selectedDog"
+        :options="dogs || []"
+        option-attribute="name"
+        by="id"
+        size="xl"
+      ></USelectMenu>
+    </div>
 
-    <USelectMenu
-      v-model="selectedDog"
-      :options="dogs || []"
-      option-attribute="name"
-      by="id"
-    ></USelectMenu>
     <UTabs :items="items" class="w-full">
       <template #viewGraph="{ item }">
         <graph-excretions :graph-data="selectedDog.graph_view"
