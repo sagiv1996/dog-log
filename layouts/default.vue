@@ -26,11 +26,11 @@
       <slot />
     </main>
 
-    <footer class="bg-gray-900 text-white">
+    <!-- <footer class="bg-gray-900 text-white">
       <div class="container mx-auto px-4 py-4 text-center">
         © 2024 Dog log. All rights reserved.
       </div>
-    </footer>
+    </footer> -->
     <UNotifications />
   </div>
 </template>

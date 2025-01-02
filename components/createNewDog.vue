@@ -4,7 +4,7 @@
     :state="state"
     class="space-y-4"
     @submit.prevent="onSubmit"
-    validateOn="submit"
+    validateOn="change"
   >
     <UFormGroup name="name">
       <UInput
@@ -26,11 +26,11 @@
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 import { dogValidationSchema } from "#shared/utils/dogValidationSchema";
+type Schema = z.output<typeof dogValidationSchema>;
 const emit = defineEmits(["submit"]);
 
-
 const state = reactive({
-  name: null,
+  name: undefined,
 });
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {

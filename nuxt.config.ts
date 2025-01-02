@@ -8,8 +8,6 @@ export default defineNuxtConfig({
       login: "/login",
       callback: "/",
     },
-
-    types: "~/types/database.types.ts",
   },
   echarts: {
     charts: ["BarChart", "LineChart"],

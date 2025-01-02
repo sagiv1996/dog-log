@@ -19,12 +19,13 @@ export default defineEventHandler(async (event) => {
     if (errorProfile || !profile) {
       throw "Error with profile";
     }
-    const { data, error } = await client
+    const { error, data } = await client
       .from("dog_access")
       .insert({ dog_id, user_id: profile.id! });
-    if (error || !data) {
+    if (error) {
       throw "Error with dog_access";
     }
+    console.log({ profile });
     return profile;
   } catch (error) {
     throw error;
