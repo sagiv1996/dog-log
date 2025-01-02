@@ -5,6 +5,7 @@
         :profiles="accessProfiles"
         :selected-dog="selectedDog.id"
         @submit="refresh"
+        v-if="dogs?.length"
       />
       <USelectMenu
         v-model="selectedDog"
@@ -12,14 +13,15 @@
         option-attribute="name"
         by="id"
         size="xl"
+        v-if="dogs?.length"
       ></USelectMenu>
     </div>
 
     <UTabs :items="items" class="w-full">
-      <template #viewGraph="{ item }">
+      <template #viewGraph="{ item }" v-if="selectedDog?.graph_view">
         <graph-excretions :graph-data="selectedDog.graph_view"
       /></template>
-      <template #addData="{ item }">
+      <template #addData="{ item }" v-if="selectedDog?.id">
         <add-excretions :selected-dog="selectedDog.id" @submit="refresh" />
       </template> </UTabs
     ><template #footer>
@@ -58,7 +60,7 @@ const items = [
 ];
 
 const accessProfiles = computed(() =>
-  selectedDog.value.dog_access.map((d: DogRow) => d.profile)
+  selectedDog.value?.dog_access.map((d: DogRow) => d.profile)
 );
 const dialogAddDogIsOpen = ref(!dogs.value?.length);
 
