@@ -13,7 +13,7 @@
     </UAvatarGroup>
 
     <UButton
-      label="Button"
+      label="Add user by email"
       color="primary"
       variant="outline"
       @click="isOpen = true"
