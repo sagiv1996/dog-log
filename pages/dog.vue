@@ -25,17 +25,26 @@
         <add-excretions :selected-dog="selectedDog.id" @submit="refresh" />
       </template> </UTabs
     ><template #footer>
-      <UPopover
-        v-model:open="dialogAddDogIsOpen"
-        overlay
-        :popper="{ placement: 'bottom-start' }"
-      >
-        <UButton label="Add Dog" icon="i-heroicons-plus" />
+      <div class="flex justify-between items-center">
+        <UPopover
+          v-model:open="dialogAddDogIsOpen"
+          overlay
+          :popper="{ placement: 'bottom-start' }"
+        >
+          <UButton label="Add Dog" icon="i-heroicons-plus" />
 
-        <template #panel>
-          <create-new-dog @submit="handleDogAdded" />
-        </template> </UPopover
-    ></template>
+          <template #panel>
+            <create-new-dog @submit="handleDogAdded" />
+          </template>
+        </UPopover>
+        <UButton
+          @click="refresh"
+          :loading="dogStatus === 'pending'"
+          icon="i-heroicons-arrow-path"
+          label="Refresh"
+        />
+      </div>
+    </template>
   </UCard>
 </template>
 
