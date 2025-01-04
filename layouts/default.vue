@@ -23,6 +23,7 @@
     </header>
 
     <main class="container mx-auto">
+      <NuxtPwaManifest />
       <slot />
     </main>
 
