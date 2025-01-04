@@ -37,4 +37,7 @@
 </template>
 <script setup lang="ts">
 const client = useSupabaseClient();
+definePageMeta({
+  layout: "login",
+});
 </script>
