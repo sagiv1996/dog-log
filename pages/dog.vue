@@ -49,12 +49,22 @@
 </template>
 
 <script setup lang="ts">
+import type { Tables } from "~/types/database.types";
+
 type DogRow = Tables<"dog">;
+const client = useSupabaseClient();
+
 const {
   data: dogs,
   refresh,
   status: dogStatus,
-} = await useFetch<DogRow[]>("api/dog");
+} = await useAsyncData("dogs", async () => {
+  const { data } = await client
+    .from("dog")
+    .select("*, graph_view(*), dog_access(*, profile!inner(*))");
+
+  return data;
+});
 const toast = useToast();
 const selectedDog = ref<DogRow>(dogs.value?.[0]);
 const items = [
