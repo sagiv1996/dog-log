@@ -39,8 +39,5 @@ export default defineNuxtConfig({
         { src: "icons/512.png", sizes: "512x512", type: "image/png" },
       ],
     },
-    workbox: {
-      navigateFallback: "/",
-    },
   },
 });
