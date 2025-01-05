@@ -58,13 +58,21 @@ const {
   data: dogs,
   refresh,
   status: dogStatus,
-} = await useAsyncData("dogs", async () => {
-  const { data } = await client
-    .from("dog")
-    .select("*, graph_view(*), dog_access(*, profile!inner(*))");
+} = await useAsyncData(
+  "dogs",
+  async () => {
+    const { data } = await client
+      .from("dog")
+      .select("*, graph_view(*), dog_access(*, profile!inner(*))");
 
-  return data;
-});
+    return data;
+  },
+  {
+    getCachedData(key, nuxtApp) {
+      return undefined;
+    },
+  }
+);
 const toast = useToast();
 const selectedDog = ref<DogRow>(dogs.value?.[0]);
 const items = [
