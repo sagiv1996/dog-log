@@ -26,6 +26,8 @@ export default defineNuxtConfig({
     ],
   },
   pwa: {
+    registerType: "autoUpdate",
+
     manifest: {
       name: "Dog Log",
       short_name: "Dog Log",
