@@ -1,11 +1,10 @@
 <template>
-  <div style="height: 60vh">
-    <VChart :option="graphOption" />
+  <div style="height: 40vh">
+    <VChart :option="graphOption" :theme="colorMode.value" />
   </div>
 </template>
 <script lang="ts" setup>
-import type {  Tables } from "~/types/database.types";
-//
+import type { Tables } from "~/types/database.types";
 
 type GraphViewRow = Tables["graph_view"];
 
@@ -18,6 +17,7 @@ type TransformedEntry = {
 const { graphData } = defineProps<{
   graphData: GraphViewRow[];
 }>();
+const colorMode = useColorMode();
 
 const transformData = () => {
   return graphData.reduce<TransformedEntry[]>((acc, curr) => {
@@ -43,6 +43,7 @@ const transformData = () => {
 const graphOption = computed(() => {
   const transData = transformData();
   return {
+    backgroundColor: null,
     tooltip: {
       trigger: "axis",
     },
