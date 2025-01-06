@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 40vh">
+  <div style="height: 50vh">
     <VChart :option="graphOption" :theme="colorMode.value" />
   </div>
 </template>
@@ -43,7 +43,6 @@ const transformData = () => {
 const graphOption = computed(() => {
   const transData = transformData();
   return {
-    backgroundColor: null,
     tooltip: {
       trigger: "axis",
     },
@@ -56,10 +55,16 @@ const graphOption = computed(() => {
       },
     },
     legend: {
-      data: ["poop_indoors", "poop_outdoors", "pee_indoors", "pee_outdoors"],
+      data: [
+        "poop indoors",
+        "poop outdoors",
+        "pee indoors",
+        "pee outdoors",
+        "Poop and Pee Distribution",
+      ],
       selected: {
-        poop_outdoors: false,
-        pee_outdoors: false,
+        "poop outdoors": false,
+        "pee outdoors": false,
       },
     },
     xAxis: {
@@ -79,8 +84,8 @@ const graphOption = computed(() => {
     ],
     series: [
       {
-        name: "poop_indoors",
-        type: "bar",
+        name: "poop indoors",
+        type: "line",
         stack: "poop",
         data: transData.map((item: GraphViewRow) => item.poop.indoors),
         itemStyle: {
@@ -88,8 +93,8 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: "poop_outdoors",
-        type: "bar",
+        name: "poop outdoors",
+        type: "line",
         stack: "poop",
         data: transData.map((item: GraphViewRow) => item.poop.outdoors),
         itemStyle: {
@@ -97,8 +102,8 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: "pee_indoors",
-        type: "bar",
+        name: "pee indoors",
+        type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.indoors),
         itemStyle: {
@@ -107,11 +112,52 @@ const graphOption = computed(() => {
       },
       {
         name: "pee_outdoors",
-        type: "bar",
+        type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.outdoors),
         itemStyle: {
           color: "#e8c992",
+        },
+      },
+      {
+        name: "Poop and Pee Distribution",
+        type: "pie",
+        center: ["85%", "30%"],
+        radius: "20%",
+        data: [
+          {
+            value: transData.reduce((sum, item) => sum + item.poop.indoors, 0),
+            name: "poop indoors",
+          },
+          {
+            value: transData.reduce((sum, item) => sum + item.poop.outdoors, 0),
+            name: "poop outdoors",
+          },
+          {
+            value: transData.reduce((sum, item) => sum + item.pee.indoors, 0),
+            name: "pee indoors",
+          },
+          {
+            value: transData.reduce((sum, item) => sum + item.pee.outdoors, 0),
+            name: "pee outdoors",
+          },
+        ],
+        itemStyle: {
+          color: function (params: {
+            name:
+              | "poop indoors"
+              | "poop outdoors"
+              | "pee indoors"
+              | "pee outdoors";
+          }): string {
+            const colorMap = {
+              "poop indoors": "#8B0000",
+              "poop outdoors": "#bf8888",
+              "pee indoors": "#f2b957",
+              "pee outdoors": "#e8c992",
+            };
+            return colorMap[params.name];
+          },
         },
       },
     ],
