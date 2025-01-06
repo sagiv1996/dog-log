@@ -47,14 +47,20 @@ const graphOption = computed(() => {
     tooltip: {
       trigger: "axis",
     },
+    toolbox: {
+      show: true,
+      feature: {
+        magicType: { type: ["line", "bar"] },
+        restore: {},
+        saveAsImage: {},
+      },
+    },
     legend: {
-      data: [
-        "poop_indoors",
-        "poop_outdoors",
-        "pee_indoors",
-        "pee_outdoors",
-        "poop_line",
-      ],
+      data: ["poop_indoors", "poop_outdoors", "pee_indoors", "pee_outdoors"],
+      selected: {
+        poop_outdoors: false,
+        pee_outdoors: false,
+      },
     },
     xAxis: {
       type: "category",
@@ -106,19 +112,6 @@ const graphOption = computed(() => {
         data: transData.map((item: GraphViewRow) => item.pee.outdoors),
         itemStyle: {
           color: "#e8c992",
-        },
-      },
-      {
-        name: "poop_line",
-        type: "line",
-        data: transData.map(
-          (item: GraphViewRow) => item.pee.indoors + item.poop.indoors
-        ),
-        itemStyle: {
-          color: "#57f290",
-        },
-        lineStyle: {
-          width: 5,
         },
       },
     ],

@@ -16,13 +16,15 @@ export default defineNuxtConfig({
     },
   },
   echarts: {
-    charts: ["BarChart", "LineChart"],
+    charts: ["BarChart", "LineChart","PieChart"],
     components: [
       "DatasetComponent",
       "GridComponent",
       "TooltipComponent",
       "LegendComponent",
       "DataZoomComponent",
+      "ToolboxComponent",
+      "TransformComponent"
     ],
   },
   pwa: {
