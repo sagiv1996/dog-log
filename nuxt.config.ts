@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     },
   },
   echarts: {
-    charts: ["BarChart", "LineChart","PieChart"],
+    charts: ["BarChart", "LineChart", "PieChart"],
     components: [
       "DatasetComponent",
       "GridComponent",
@@ -24,7 +24,6 @@ export default defineNuxtConfig({
       "LegendComponent",
       "DataZoomComponent",
       "ToolboxComponent",
-      "TransformComponent"
     ],
   },
   pwa: {
