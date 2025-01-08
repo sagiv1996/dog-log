@@ -1,21 +1,27 @@
 <template>
   <UCard class="h-screen">
-    <div class="flex justify-between items-center">
-      <profiles
-        :profiles="accessProfiles"
-        :selected-dog="selectedDog.id"
-        @submit="refresh"
-        v-if="dogs?.length"
-      />
-      <USelectMenu
-        v-model="selectedDog"
-        :options="dogs || []"
-        option-attribute="name"
-        by="id"
-        size="xl"
-        v-if="dogs?.length"
-      ></USelectMenu>
-    </div>
+    <profiles
+      :profiles="accessProfiles"
+      :selected-dog="selectedDog.id"
+      @submit="refresh"
+      v-if="dogs?.length"
+    />
+    <USelectMenu
+      v-model="selectedDogId"
+      :options="dogs || []"
+      size="xl"
+      icon="material-symbols:sound-detection-dog-barking-outline"
+      value-attribute="id"
+      option-attribute="name"
+      searchable
+      searchable-placeholder="Search a dog..."
+    >
+      <template #option-create="{ option }">
+        <span class="flex-shrink-0">New label:</span>
+        <span class="flex-shrink-0 w-2 h-2 mt-px rounded-full -mx-1" />
+        <span class="block truncate">{{ option }}</span>
+      </template></USelectMenu
+    >
 
     <UTabs :items="items" class="w-full">
       <template #viewGraph="{ item }" v-if="selectedDog?.graph_view">
@@ -58,15 +64,18 @@ const {
   data: dogs,
   refresh,
   status: dogStatus,
-} = await useAsyncData("dogs", async () => {
+} = await useAsyncData<DogRow[]>("dogs", async () => {
   const { data } = await client
     .from("dog")
     .select("*, graph_view(*), dog_access(*, profile!inner(*))");
 
-  return data;
+  return data || [];
 });
 const toast = useToast();
-const selectedDog = ref<DogRow>(dogs.value?.[0]);
+const selectedDog = computed(() =>
+  dogs.value?.find((dog) => dog.id === selectedDogId.value)
+);
+const selectedDogId = ref<number>(dogs.value?.[0]?.id);
 const items = [
   {
     slot: "viewGraph",
@@ -88,6 +97,6 @@ const handleDogAdded = async () => {
   await refresh();
   toast.add({ title: "Record Added" });
   const lastDog = dogs.value![dogs.value!.length - 1];
-  selectedDog.value = lastDog;
+  selectedDogId.value = lastDog.id;
 };
 </script>
