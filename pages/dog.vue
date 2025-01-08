@@ -15,6 +15,7 @@
       option-attribute="name"
       searchable
       searchable-placeholder="Search a dog..."
+      :loading="dogStatus === 'pending'"
     >
       <template #option-create="{ option }">
         <span class="flex-shrink-0">New label:</span>
