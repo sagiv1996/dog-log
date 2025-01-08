@@ -4,7 +4,6 @@
     :state="state"
     class="space-y-4"
     @submit.prevent="onSubmit"
-    validateOn="change"
   >
     <UFormGroup name="name">
       <UInput
@@ -18,7 +17,7 @@
       />
     </UFormGroup>
 
-    <UButton type="submit"> Submit </UButton>
+    <UButton type="submit" :loading="isLoading"> Submit </UButton>
   </UForm>
 </template>
 
@@ -32,13 +31,16 @@ const emit = defineEmits(["submit"]);
 const state = reactive({
   name: undefined,
 });
+const isLoading = ref(false);
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {
   const { name } = event.data;
+  isLoading.value = true;
   await useFetch("/api/dog", {
     method: "POST",
     body: { name },
   });
   emit("submit");
+  isLoading.value = false;
 };
 </script>
