@@ -48,7 +48,7 @@ const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
       type: selectedType,
     },
   });
-  if (error.value || data.value?.["error"]) {
+  if (error.value) {
     toast.add({ title: `Error to add record`, color: "red" });
   }
   toast.add({ title: "Record Added" });
