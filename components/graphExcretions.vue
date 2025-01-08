@@ -111,7 +111,7 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: "pee_outdoors",
+        name: "pee outdoors",
         type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.outdoors),
