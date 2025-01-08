@@ -64,13 +64,8 @@ const {
   data: dogs,
   refresh,
   status: dogStatus,
-} = await useAsyncData<DogRow[]>("dogs", async () => {
-  const { data } = await client
-    .from("dog")
-    .select("*, graph_view(*), dog_access(*, profile!inner(*))");
+} = await useAsyncData<DogRow[]>("dogs", () => $fetch("/api/dog"));
 
-  return data || [];
-});
 const toast = useToast();
 const selectedDog = computed(() =>
   dogs.value?.find((dog) => dog.id === selectedDogId.value)
