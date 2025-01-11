@@ -43,6 +43,7 @@ const transformData = () => {
 const graphOption = computed(() => {
   const transData = transformData();
   return {
+    backgroundColor: "transparent",
     tooltip: {
       trigger: "axis",
     },
