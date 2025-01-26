@@ -5,17 +5,16 @@
     class="space-y-4"
     @submit.prevent="onSubmit"
   >
-    <UFormGroup name="name">
+    <UFormField name="name">
       <UInput
         icon="material-symbols:sound-detection-dog-barking-outline"
         size="sm"
-        color="white"
         :trailing="false"
         placeholder="Search..."
         v-model="state.name"
         autofocus
       />
-    </UFormGroup>
+    </UFormField>
 
     <UButton type="submit" :loading="isLoading"> Submit </UButton>
   </UForm>

@@ -31,11 +31,11 @@
         <UPopover
           v-model:open="dialogAddDogIsOpen"
           overlay
-          :popper="{ placement: 'bottom-start' }"
+          :content="{ side: 'right', align: 'start' }"
         >
           <UButton label="Add Dog" icon="i-heroicons-plus" />
 
-          <template #panel>
+          <template #content>
             <create-new-dog @submit="handleDogAdded" />
           </template>
         </UPopover>
