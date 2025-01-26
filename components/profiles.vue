@@ -1,64 +1,49 @@
 <template>
-  <UButtonGroup size="md" orientation="horizontal">
-    <UAvatarGroup size="lg">
-      <UAvatar
-        v-for="(profile, index) in profiles"
-        :key="index"
-        :src="profile.avatar_url"
-        :alt="profile.name"
-        chip-color="primary"
-        :chip-text="profile.name.slice(0, 3)"
-        chip-position="top-left"
-      />
-    </UAvatarGroup>
-
-    <UButton
-      label="Add user by email"
-      color="primary"
-      variant="outline"
-      @click="isOpen = true"
+  <UAvatarGroup size="3xl">
+    <UChip
+      inset
+      v-for="(profile, index) in profiles"
+      :text="profile.name.slice(0, 3)"
+      position="top-left"
     >
-      <template #trailing>
-        <UIcon name="i-heroicons-arrow-right-20-solid" class="w-5 h-5" />
-      </template>
-    </UButton>
-  </UButtonGroup>
-  <UModal v-model="isOpen">
-    <UCard
-      :ui="{
-        ring: '',
-        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-      }"
-    >
-      <template #header><UDivider label="Add user by email" /> </template>
+      <UAvatar :src="profile.avatar_url" :alt="profile.name" />
+    </UChip>
+    <UChip inset size="3xl" :show="false">
+      <UModal title="Add user">
+        <UButton icon="i-mdi-plus" size="xl" label="Add user" />
 
-      <UForm
-        :schema="schema"
-        :state="state"
-        ref="form"
-        class="space-y-4"
-        @submit="handleOnSubmit"
-      >
-        <UFormGroup name="email" class="text-center">
-          <UButtonGroup size="sm" orientation="horizontal">
-            <UInput
-              v-model="state.email"
-              size="xl"
-              icon="i-heroicons-envelope"
-              placeholder="Email"
-              block
-            />
-            <UButton
-              type="submit"
-              :loading="isLoading"
-              icon="i-heroicons-arrow-right"
-              color="gray"
-            />
-          </UButtonGroup>
-        </UFormGroup>
-      </UForm>
-    </UCard>
-  </UModal>
+        <template #body>
+          <UForm
+            :schema="schema"
+            :state="state"
+            ref="form"
+            class="space-y-4"
+            @submit="handleOnSubmit"
+          >
+            <UFormField name="email" class="text-center">
+              <UInput
+                v-model="state.email"
+                size="xl"
+                icon="i-heroicons-envelope"
+                placeholder="Email"
+              >
+                <template #trailing>
+                  <UButton
+                    color="neutral"
+                    variant="link"
+                    size="xl"
+                    icon="i-heroicons-arrow-right"
+                    aria-label="submit input"
+                    type="submit"
+                  />
+                </template>
+              </UInput>
+            </UFormField>
+          </UForm>
+        </template>
+      </UModal>
+    </UChip>
+  </UAvatarGroup>
 </template>
 
 <script setup lang="ts">
@@ -78,7 +63,6 @@ const isLoading = ref<boolean>(false);
 const state = reactive({
   email: undefined,
 });
-const isOpen = ref(false);
 const { profiles, selectedDog } = defineProps<{
   profiles: ProfileViewRow;
   selectedDog: number;
@@ -98,7 +82,7 @@ const handleOnSubmit = async (event: FormSubmitEvent<Schema>) => {
   if (!data) {
     form.value?.setErrors([
       {
-        path: "email",
+        name: "email",
         message: "Error. try later.",
       },
     ]);
@@ -107,7 +91,6 @@ const handleOnSubmit = async (event: FormSubmitEvent<Schema>) => {
   toast.add({
     title: `An email with a login link was sent to the address${email}`,
   });
-  isOpen.value = false;
   emit("submit");
 };
 </script>
