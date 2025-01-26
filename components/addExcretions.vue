@@ -1,32 +1,34 @@
 <template>
   <div class="grid grid-cols-2 gap-6 justify-items-center">
-    <UToggle
-      on-icon="i-heroicons-sun"
-      off-icon="i-heroicons-home"
+    <USwitch
+      unchecked-icon="i-heroicons-home"
+      checked-icon="i-heroicons-sun"
+      default-value
       v-model="isOutDoors"
-      size="2xl"
       :loading="isLoading"
       :disabled="!selectedDog"
+      size="xl"
+      aria-label="indoors or outdoors"
     />
     <date-picker v-model="date" />
     <UButton
       label="pee"
       block
       size="md"
-      class="action-button"
       @click="handleClickTypeButton('pee')"
       :loading="isLoading"
       :disabled="!selectedDog"
+      aria-label="is pee"
     />
 
     <UButton
       label="poop"
       block
       size="md"
-      class="action-button"
       @click="handleClickTypeButton('poop')"
       :loading="isLoading"
       :disabled="!selectedDog"
+      aria-label="is poop"
     />
   </div>
 </template>
