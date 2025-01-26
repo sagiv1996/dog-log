@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@vite-pwa/nuxt",
   ],
+  css: ["~/assets/css/main.css"],
   supabase: {
     redirectOptions: {
       login: "/login",
