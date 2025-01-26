@@ -8,27 +8,19 @@
     />
     <USelectMenu
       v-model="selectedDogId"
-      :options="dogs || []"
+      :items="dogs"
       size="xl"
       icon="material-symbols:sound-detection-dog-barking-outline"
-      value-attribute="id"
-      option-attribute="name"
       searchable
+      value-key="id"
+      label-key="name"
       searchable-placeholder="Search a dog..."
       :loading="dogStatus === 'pending'"
-    >
-      <template #option-create="{ option }">
-        <span class="flex-shrink-0">New label:</span>
-        <span class="flex-shrink-0 w-2 h-2 mt-px rounded-full -mx-1" />
-        <span class="block truncate">{{ option }}</span>
-      </template></USelectMenu
-    >
+      class="w-full"
+    ></USelectMenu>
 
-    <UTabs :items="items" class="w-full" v-model="selectedTab">
-      <template
-        #viewGraph="{ item }"
-        v-if="selectedDog?.graph_view && selectedTab === 0"
-      >
+    <UTabs :items="items" class="w-full">
+      <template #viewGraph="{ item }" v-if="selectedDog?.graph_view">
         <graph-excretions :graph-data="selectedDog.graph_view"
       /></template>
       <template #addData="{ item }" v-if="selectedDog?.id">
@@ -62,7 +54,6 @@
 import type { Tables } from "~/types/database.types";
 
 type DogRow = Tables<"dog">;
-const selectedTab = ref(1);
 
 const {
   data: dogs,
@@ -79,10 +70,12 @@ const items = [
   {
     slot: "viewGraph",
     label: "View graph",
+    icon: "i-mdi-finance",
   },
   {
     slot: "addData",
     label: "Add Data",
+    icon: "i-mdi-cable-data",
   },
 ];
 
