@@ -11,7 +11,7 @@
             <template #content>
               <UButton
                 label="Logout"
-                icon="i-simple-icons-personio"
+                icon="i-mdi-logout"
                 block
                 @click="client.auth.signOut()"
               />
