@@ -24,8 +24,11 @@
       </template></USelectMenu
     >
 
-    <UTabs :items="items" class="w-full">
-      <template #viewGraph="{ item }" v-if="selectedDog?.graph_view">
+    <UTabs :items="items" class="w-full" v-model="selectedTab">
+      <template
+        #viewGraph="{ item }"
+        v-if="selectedDog?.graph_view && selectedTab === 0"
+      >
         <graph-excretions :graph-data="selectedDog.graph_view"
       /></template>
       <template #addData="{ item }" v-if="selectedDog?.id">
@@ -59,7 +62,7 @@
 import type { Tables } from "~/types/database.types";
 
 type DogRow = Tables<"dog">;
-const client = useSupabaseClient();
+const selectedTab = ref(1);
 
 const {
   data: dogs,
