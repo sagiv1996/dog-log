@@ -55,12 +55,7 @@ import type { Tables } from "~/types/database.types";
 
 type DogRow = Tables<"dog">;
 
-const {
-  data: dogs,
-  refresh,
-  status: dogStatus,
-} = await useAsyncData<DogRow[]>("dogs", () => $fetch("/api/dog"));
-
+const { data: dogs, refresh, status: dogStatus } = await useFetch("/api/dog");
 const toast = useToast();
 const selectedDog = computed(() =>
   dogs.value?.find((dog) => dog.id === selectedDogId.value)
