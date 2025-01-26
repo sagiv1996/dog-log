@@ -1,16 +1,21 @@
 <template>
-  <UCard :ui="{ body: { base: 'grid grid-cols-3' } }">
-    <div class="text-center">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, qui.
-      Ratione, corrupti est eum suscipit molestiae quo cum velit doloribus
-      fugiat omnis illo quisquam perspiciatis reiciendis aut ab, laboriosam qui.
+  <UCard :ui="{ body: 'grid grid-cols-3' }">
+    <div class="text-center lg:col-span-1 col-span-3">
+      Welcome to the ultimate app for tracking your dog's needs! Log your dog's
+      activities, view detailed patterns in easy-to-read graphs, and share
+      access with family or friends. Managing your dog's health has never been
+      easier!
     </div>
 
-    <UDivider label="SignIn" orientation="vertical" />
+    <USeparator
+      orientation="vertical"
+      class="h-full lg:visible invisible"
+      label="SignIn"
+    />
 
     <div class="space-y-4 flex flex-col justify-center">
       <UButton
-        color="black"
+        color="neutral"
         label="Login with GitHub"
         icon="i-simple-icons-github"
         block
@@ -21,7 +26,7 @@
         "
       />
       <UButton
-        color="black"
+        color="neutral"
         label="Login with Google"
         icon="i-simple-icons-google"
         block
@@ -31,7 +36,6 @@
           })
         "
       />
-      <sign-in-by-otp />
     </div>
   </UCard>
 </template>
