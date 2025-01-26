@@ -22,6 +22,9 @@
         @click="
           client.auth.signInWithOAuth({
             provider: 'github',
+            options: {
+              redirectTo,
+            },
           })
         "
       />
@@ -33,6 +36,9 @@
         @click="
           client.auth.signInWithOAuth({
             provider: 'google',
+            options: {
+              redirectTo,
+            },
           })
         "
       />
@@ -40,6 +46,7 @@
   </UCard>
 </template>
 <script setup lang="ts">
+const redirectTo = window?.location?.origin;
 const client = useSupabaseClient();
 definePageMeta({
   layout: "login",
