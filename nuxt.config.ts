@@ -52,6 +52,7 @@ export default defineNuxtConfig({
       {
         code: "he",
         file: "he-IL.ts",
+        dir: "rtl",
       },
     ],
     lazy: true,
