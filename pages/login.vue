@@ -1,10 +1,7 @@
 <template>
   <UCard :ui="{ body: 'grid grid-cols-3' }">
     <div class="text-center lg:col-span-1 col-span-3">
-      Welcome to the ultimate app for tracking your dog's needs! Log your dog's
-      activities, view detailed patterns in easy-to-read graphs, and share
-      access with family or friends. Managing your dog's health has never been
-      easier!
+      {{ $t("welcome") }}
     </div>
 
     <USeparator
@@ -16,7 +13,7 @@
     <div class="space-y-4 flex flex-col justify-center">
       <UButton
         color="neutral"
-        label="Login with GitHub"
+        :label="$t('loginByGitHub')"
         icon="i-simple-icons-github"
         block
         @click="
@@ -30,7 +27,7 @@
       />
       <UButton
         color="neutral"
-        label="Login with Google"
+        :label="$t('loginByGoogle')"
         icon="i-simple-icons-google"
         block
         @click="

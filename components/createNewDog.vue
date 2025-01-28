@@ -15,7 +15,7 @@
       />
     </UFormField>
 
-    <UButton type="submit" :loading="isLoading"> Submit </UButton>
+    <UButton type="submit" :loading="isLoading"> {{ $t("submit") }} </UButton>
   </UForm>
 </template>
 

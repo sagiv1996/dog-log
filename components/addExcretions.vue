@@ -12,7 +12,7 @@
     />
     <date-picker v-model="date" />
     <UButton
-      label="pee"
+      :label="$t('pee')"
       block
       size="md"
       @click="handleClickTypeButton('pee')"
@@ -22,7 +22,7 @@
     />
 
     <UButton
-      label="poop"
+      :label="$t('poop')"
       block
       size="md"
       @click="handleClickTypeButton('poop')"
@@ -33,6 +33,7 @@
   </div>
 </template>
 <script setup lang="ts">
+const { t } = useI18n();
 const emit = defineEmits(["submit"]);
 const { selectedDog } = defineProps<{
   selectedDog: number;
@@ -53,9 +54,9 @@ const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
     },
   });
   if (error.value) {
-    toast.add({ title: `Error to add record`, color: "red" });
+    toast.add({ title: t("errorMessage") });
   }
-  toast.add({ title: "Record Added" });
+  toast.add({ title: t("successMessage") });
   isLoading.value = false;
   emit("submit");
 };

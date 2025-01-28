@@ -1,6 +1,6 @@
 <template>
   <UCard>
-    <template #header>Redirect... </template>
+    <template #header>{{ $t("redirect") }}</template>
   </UCard>
 </template>
 

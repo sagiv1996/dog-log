@@ -18,6 +18,7 @@ const { graphData } = defineProps<{
   graphData: GraphViewRow[];
 }>();
 const colorMode = useColorMode();
+const { t } = useI18n();
 
 const transformData = () => {
   return graphData.reduce<TransformedEntry[]>((acc, curr) => {
@@ -57,10 +58,10 @@ const graphOption = computed(() => {
     },
     legend: {
       data: [
-        "poop indoors",
-        "poop outdoors",
-        "pee indoors",
-        "pee outdoors",
+        t("poopIndoors"),
+        t('poopOutdoors'),
+        t('peeIndoors'),
+        t('pee outdoors'),
         "Poop and Pee Distribution",
       ],
       selected: {
@@ -85,7 +86,7 @@ const graphOption = computed(() => {
     ],
     series: [
       {
-        name: "poop indoors",
+        name: t("poopIndoors"),
         type: "line",
         stack: "poop",
         data: transData.map((item: GraphViewRow) => item.poop.indoors),
@@ -94,7 +95,7 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: "poop outdoors",
+        name: t('poopOutdoors'),
         type: "line",
         stack: "poop",
         data: transData.map((item: GraphViewRow) => item.poop.outdoors),
@@ -103,7 +104,7 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: "pee indoors",
+        name: t('peeIndoors'),
         type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.indoors),
@@ -112,7 +113,7 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: "pee outdoors",
+        name: t('pee outdoors'),
         type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.outdoors),
@@ -128,7 +129,7 @@ const graphOption = computed(() => {
         data: [
           {
             value: transData.reduce((sum, item) => sum + item.poop.indoors, 0),
-            name: "poop indoors",
+            name: t("poopIndoors"),
           },
           {
             value: transData.reduce((sum, item) => sum + item.poop.outdoors, 0),

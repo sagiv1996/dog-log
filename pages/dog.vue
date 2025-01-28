@@ -14,7 +14,7 @@
       searchable
       value-key="id"
       label-key="name"
-      searchable-placeholder="Search a dog..."
+      :searchable-placeholder="$t('searchADog')"
       :loading="dogStatus === 'pending'"
       class="w-full"
     ></USelectMenu>
@@ -43,7 +43,7 @@
           @click="refresh"
           :loading="dogStatus === 'pending'"
           icon="i-heroicons-arrow-path"
-          label="Refresh"
+          :label="$t('refresh')"
         />
       </div>
     </template>
@@ -54,6 +54,7 @@
 import type { Tables } from "~/types/database.types";
 
 type DogRow = Tables<"dog">;
+const { t } = useI18n();
 
 const { data: dogs, refresh, status: dogStatus } = await useFetch("/api/dog");
 const toast = useToast();
@@ -64,12 +65,12 @@ const selectedDogId = ref<number>(dogs.value?.[0]?.id);
 const items = [
   {
     slot: "viewGraph",
-    label: "View graph",
+    label: t("viewGraph"),
     icon: "i-mdi-finance",
   },
   {
     slot: "addData",
-    label: "Add Data",
+    label: t("addData"),
     icon: "i-mdi-cable-data",
   },
 ];
@@ -82,7 +83,7 @@ const dialogAddDogIsOpen = ref(!dogs.value?.length);
 const handleDogAdded = async () => {
   dialogAddDogIsOpen.value = false;
   await refresh();
-  toast.add({ title: "Record Added" });
+  toast.add({ title: t("successMessage") });
   const lastDog = dogs.value![dogs.value!.length - 1];
   selectedDogId.value = lastDog.id;
 };

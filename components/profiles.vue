@@ -9,8 +9,8 @@
       <UAvatar :src="profile.avatar_url" :alt="profile.name" />
     </UChip>
     <UChip inset size="3xl" :show="false">
-      <UModal title="Add user">
-        <UButton icon="i-mdi-plus" size="xl" label="Add user" />
+      <UModal :title="$t('addUser')">
+        <UButton icon="i-mdi-plus" size="xl" :label="$t('addUser')" />
 
         <template #body>
           <UForm
