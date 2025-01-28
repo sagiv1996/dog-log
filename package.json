@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nuxt/eslint": "^0.7.4",
-    "@nuxt/ui": "^3.0.0-alpha.11",
+    "@nuxt/ui": "^3.0.0-alpha.12",
     "@nuxtjs/supabase": "^1.4.5",
     "@vite-pwa/nuxt": "^0.10.6",
     "echarts": "^5.5.1",
