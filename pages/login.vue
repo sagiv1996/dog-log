@@ -1,6 +1,6 @@
 <template>
-  <UCard :ui="{ body: 'grid grid-cols-3' }">
-    <div class="text-center lg:col-span-1 col-span-3">
+  <UCard :ui="{ body: 'grid lg:grid-cols-3 grid-cols-1' }">
+    <div class="text-center">
       {{ $t("welcome") }}
     </div>
 
