@@ -47,11 +47,11 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "en",
-        file: "en-US.json",
+        file: "en-US.ts",
       },
       {
         code: "he",
-        file: "he-IL.json",
+        file: "he-IL.ts",
       },
     ],
     lazy: true,
