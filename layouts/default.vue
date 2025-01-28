@@ -12,6 +12,10 @@
                 color="neutral"
                 variant="outline"
               />
+              <template #avatar-profile v-if="user">
+                <UAvatar :src="user.user_metadata?.avatar_url" />
+                {{ user.user_metadata?.full_name }}
+              </template>
               <template #item-label="{ item }">
                 {{ $t(item.label) }}
               </template>
@@ -57,15 +61,8 @@ const isDark = computed({
 const items = ref([
   [
     {
-      label: user.value?.user_metadata?.full_name,
-      avatar: {
-        src: user.value?.user_metadata?.avatar_url,
-        alt: "avatar of user",
-      },
-      type: "label",
+      slot: "avatar-profile",
     },
-  ],
-  [
     {
       label: "changeTheme",
       icon: "i-mdi-theme-light-dark",
@@ -86,6 +83,7 @@ const items = ref([
       onSelect() {
         client.auth.signOut();
       },
+      disabled: !user.value,
     },
   ],
 ]);

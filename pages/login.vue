@@ -45,7 +45,4 @@
 <script setup lang="ts">
 const redirectTo = window?.location?.origin;
 const client = useSupabaseClient();
-definePageMeta({
-  layout: "login",
-});
 </script>
