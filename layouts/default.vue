@@ -24,7 +24,7 @@
         </div>
       </div>
     </header>
-
+    <NuxtPwaManifest />
     <NuxtPage />
   </UApp>
 </template>
