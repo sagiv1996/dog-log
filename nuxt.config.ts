@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "nuxt-echarts",
     "@nuxt/eslint",
     "@vite-pwa/nuxt",
+    "@nuxtjs/i18n",
   ],
   css: ["~/assets/css/main.css"],
   supabase: {
