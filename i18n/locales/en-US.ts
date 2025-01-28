@@ -20,4 +20,8 @@ export default {
   addUser: "Add user",
   errorMessage: "Error. try later.",
   successMessage: "The operation was performed successfully",
+  open: "Open",
+  changeTheme: "Change Theme",
+  changeLang: "עברית",
+  logout: "Logout ",
 };

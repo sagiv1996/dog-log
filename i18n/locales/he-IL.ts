@@ -20,4 +20,8 @@ export default {
   addUser: "הוספת משתמש",
   errorMessage: "שגיאה. נסו מאוחר יותר.",
   successMessage: "הפעולה בוצעה בהצלחה",
+  open: "פתיחה",
+  changeTheme: "שנה ערכת נושא",
+  changeLang: "English",
+  logout: "התנתקות ",
 };
