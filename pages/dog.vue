@@ -33,7 +33,7 @@
           overlay
           :content="{ side: 'right', align: 'start' }"
         >
-          <UButton label="Add Dog" icon="i-heroicons-plus" />
+          <UButton :label="$t('addDog')" icon="i-heroicons-plus" />
 
           <template #content>
             <create-new-dog @submit="handleDogAdded" />
