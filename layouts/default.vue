@@ -12,6 +12,9 @@
                 color="neutral"
                 variant="outline"
               />
+              <template #item-label="{ item }">
+                {{ $t(item.label) }}
+              </template>
             </UDropdownMenu>
           </ClientOnly>
         </div>
@@ -24,7 +27,7 @@
 <script setup lang="ts">
 import * as locales from "@nuxt/ui/locale";
 
-const { setLocale, locale, t } = useI18n();
+const { setLocale, locale } = useI18n();
 const lang = computed(() => locales[locale.value].code);
 const dir = computed(() => locales[locale.value].dir);
 
@@ -57,28 +60,28 @@ const items = ref([
       label: user.value?.user_metadata?.full_name,
       avatar: {
         src: user.value?.user_metadata?.avatar_url,
-        alt: "a",
+        alt: "avatar of user",
       },
       type: "label",
     },
   ],
   [
     {
-      label: t("changeTheme"),
+      label: "changeTheme",
       icon: "i-mdi-theme-light-dark",
       onSelect() {
         isDark.value = !isDark.value;
       },
     },
     {
-      label: t("changeLang"),
+      label: "changeLang",
       icon: "i-mdi-translate",
       onSelect() {
         setLocale(locale.value === "en" ? "he" : "en");
       },
     },
     {
-      label: t("logout"),
+      label: "logout",
       icon: "i-mdi-logout",
       onSelect() {
         client.auth.signOut();
