@@ -1,5 +1,5 @@
 <template>
-  <UApp>
+  <UApp :locale="locales[locale]">
     <header>
       <div class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
@@ -22,6 +22,18 @@
   </UApp>
 </template>
 <script setup lang="ts">
+import * as locales from "@nuxt/ui/locale";
+
+const { setLocale, locale } = useI18n();
+const lang = computed(() => locales[locale.value].code);
+const dir = computed(() => locales[locale.value].dir);
+
+useHead({
+  htmlAttrs: {
+    lang,
+    dir,
+  },
+});
 const client = useSupabaseClient();
 const user = useSupabaseUser();
 watch(user, async () => {
@@ -56,6 +68,13 @@ const items = ref([
       icon: "i-mdi-theme-light-dark",
       onSelect() {
         isDark.value = !isDark.value;
+      },
+    },
+    {
+      label: "Change lang",
+      icon: "i-mdi-languber",
+      onSelect() {
+        setLocale("he");
       },
     },
     {
