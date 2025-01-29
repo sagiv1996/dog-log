@@ -43,9 +43,11 @@ useHead({
 });
 const client = useSupabaseClient();
 const user = useSupabaseUser();
+const localePath = useLocalePath()
+
 watch(user, async () => {
   if (!user.value) {
-    await navigateTo("/login");
+    await navigateTo(localePath("/login"));
   }
 });
 const colorMode = useColorMode();
