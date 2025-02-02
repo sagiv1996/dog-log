@@ -59,14 +59,13 @@ const graphOption = computed(() => {
     legend: {
       data: [
         t("poopIndoors"),
-        t('poopOutdoors'),
-        t('peeIndoors'),
-        t('pee outdoors'),
-        "Poop and Pee Distribution",
+        t("poopOutdoors"),
+        t("peeIndoors"),
+        t("peeOutdoors"),
       ],
       selected: {
-        "poop outdoors": false,
-        "pee outdoors": false,
+        [t("poopIndoors")]: false,
+        [t("peeIndoors")]: false,
       },
     },
     xAxis: {
@@ -95,7 +94,7 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: t('poopOutdoors'),
+        name: t("poopOutdoors"),
         type: "line",
         stack: "poop",
         data: transData.map((item: GraphViewRow) => item.poop.outdoors),
@@ -104,7 +103,7 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: t('peeIndoors'),
+        name: t("peeIndoors"),
         type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.indoors),
@@ -113,53 +112,12 @@ const graphOption = computed(() => {
         },
       },
       {
-        name: t('pee outdoors'),
+        name: t("peeOutdoors"),
         type: "line",
         stack: "pee",
         data: transData.map((item: GraphViewRow) => item.pee.outdoors),
         itemStyle: {
           color: "#e8c992",
-        },
-      },
-      {
-        name: "Poop and Pee Distribution",
-        type: "pie",
-        center: ["85%", "30%"],
-        radius: "20%",
-        data: [
-          {
-            value: transData.reduce((sum, item) => sum + item.poop.indoors, 0),
-            name: t("poopIndoors"),
-          },
-          {
-            value: transData.reduce((sum, item) => sum + item.poop.outdoors, 0),
-            name: "poop outdoors",
-          },
-          {
-            value: transData.reduce((sum, item) => sum + item.pee.indoors, 0),
-            name: "pee indoors",
-          },
-          {
-            value: transData.reduce((sum, item) => sum + item.pee.outdoors, 0),
-            name: "pee outdoors",
-          },
-        ],
-        itemStyle: {
-          color: function (params: {
-            name:
-              | "poop indoors"
-              | "poop outdoors"
-              | "pee indoors"
-              | "pee outdoors";
-          }): string {
-            const colorMap = {
-              "poop indoors": "#8B0000",
-              "poop outdoors": "#bf8888",
-              "pee indoors": "#f2b957",
-              "pee outdoors": "#e8c992",
-            };
-            return colorMap[params.name];
-          },
         },
       },
     ],
