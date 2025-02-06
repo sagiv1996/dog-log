@@ -66,6 +66,13 @@ const selectedDog = computed(() =>
   dogs.value?.find((dog) => dog.id === selectedDogId.value)
 );
 const selectedDogId = ref<number>(dogs.value?.[0]?.id);
+
+useHead({ title: selectedDog.value?.name });
+watch(selectedDog, (newValue: DogRow) => {
+  useHead({
+    title: newValue.name,
+  });
+});
 const items = [
   {
     slot: "viewGraph",
