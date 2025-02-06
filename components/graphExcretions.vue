@@ -55,9 +55,8 @@ const graphOption = computed(() => {
       show: true,
       feature: {
         magicType: { type: ["line", "bar"] },
-        restore: {},
-        saveAsImage: {},
       },
+      left: isRtl ? "left" : "right",
     },
     legend: {
       data: [
@@ -70,11 +69,11 @@ const graphOption = computed(() => {
         [t("poopIndoors")]: false,
         [t("peeIndoors")]: false,
       },
+      left: isRtl ? "right" : "left",
     },
     xAxis: {
       type: "category",
       data: transData.map((item: GraphViewRow) => item.date),
-      inverse: isRtl,
     },
     yAxis: {
       type: "value",
