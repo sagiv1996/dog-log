@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@vite-pwa/nuxt",
     "@nuxtjs/i18n",
+    "@nuxtjs/device",
   ],
   css: ["~/assets/css/main.css"],
   supabase: {
