@@ -19,7 +19,11 @@
       class="w-full"
     ></USelectMenu>
 
-    <UTabs :items="items" class="w-full">
+    <UTabs
+      :items="items"
+      class="w-full"
+      :default-value="$device.isDesktopOrTablet ? 'graph' : 'add'"
+    >
       <template #viewGraph="{ item }" v-if="selectedDog?.graph_view">
         <graph-excretions :graph-data="selectedDog.graph_view"
       /></template>
@@ -67,11 +71,13 @@ const items = [
     slot: "viewGraph",
     label: t("viewGraph"),
     icon: "i-mdi-finance",
+    value: "graph",
   },
   {
     slot: "addData",
     label: t("addData"),
     icon: "i-mdi-cable-data",
+    value: "add",
   },
 ];
 
