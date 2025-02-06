@@ -1,7 +1,8 @@
 <template>
-  <div style="height: 50vh">
-    <VChart :option="graphOption" :theme="colorMode.value" />
-  </div>
+  <VChart
+    :option="graphOption"
+    :init-options="{ height: '500', width: 'auto' }"
+  />
 </template>
 <script lang="ts" setup>
 import type { Tables } from "~/types/database.types";
