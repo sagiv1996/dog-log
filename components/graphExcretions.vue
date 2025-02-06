@@ -1,7 +1,8 @@
 <template>
   <VChart
     :option="graphOption"
-    :init-options="{ height: '500', width: 'auto' }"
+    :init-options="{ height: '500', width: 'auto', locale: locale }"
+    :theme="colorMode.value"
   />
 </template>
 <script lang="ts" setup>
@@ -19,7 +20,7 @@ const { graphData } = defineProps<{
   graphData: GraphViewRow[];
 }>();
 const colorMode = useColorMode();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const transformData = () => {
   return graphData.reduce<TransformedEntry[]>((acc, curr) => {
@@ -44,6 +45,7 @@ const transformData = () => {
 };
 const graphOption = computed(() => {
   const transData = transformData();
+  const isRtl = locale.value === "he";
   return {
     backgroundColor: "transparent",
     tooltip: {
@@ -72,6 +74,7 @@ const graphOption = computed(() => {
     xAxis: {
       type: "category",
       data: transData.map((item: GraphViewRow) => item.date),
+      inverse: isRtl,
     },
     yAxis: {
       type: "value",
