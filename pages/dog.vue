@@ -1,5 +1,5 @@
 <template>
-  <UCard class="h-screen">
+  <UCard>
     <profiles
       :profiles="accessProfiles"
       :selected-dog="selectedDog.id"
