@@ -24,4 +24,5 @@ export default {
   changeTheme: "Change Theme",
   changeLang: "עברית",
   logout: "Logout ",
+  loginPageTitle: "Login page",
 };

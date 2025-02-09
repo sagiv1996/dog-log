@@ -45,4 +45,6 @@
 <script setup lang="ts">
 const redirectTo = window?.location?.origin;
 const client = useSupabaseClient();
+const { t } = useI18n();
+useHead({ title: t("loginPageTitle") });
 </script>
