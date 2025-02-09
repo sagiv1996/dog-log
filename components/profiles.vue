@@ -1,5 +1,5 @@
 <template>
-  <UAvatarGroup size="3xl">
+  <UAvatarGroup>
     <UChip
       inset
       v-for="(profile, index) in profiles"
@@ -8,9 +8,9 @@
     >
       <UAvatar :src="profile.avatar_url" :alt="profile.name" />
     </UChip>
-    <UChip inset size="3xl" :show="false">
+    <UChip inset :show="false">
       <UModal :title="$t('addUser')">
-        <UButton icon="i-mdi-plus" size="xl" :label="$t('addUser')" />
+        <UButton icon="i-mdi-plus" :label="$t('addUser')" />
 
         <template #body>
           <UForm
