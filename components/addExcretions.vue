@@ -1,12 +1,14 @@
 <template>
   <div class="grid grid-cols-2 gap-6 justify-items-center">
+    {{ selectedDogId }}
+    {{ excretions }}
     <USwitch
       unchecked-icon="i-heroicons-home"
       checked-icon="i-heroicons-sun"
       default-value
       v-model="isOutDoors"
       :loading="isLoading"
-      :disabled="!selectedDog"
+      :disabled="!selectedDogId"
       size="xl"
       aria-label="indoors or outdoors"
     />
@@ -17,7 +19,7 @@
       size="md"
       @click="handleClickTypeButton('pee')"
       :loading="isLoading"
-      :disabled="!selectedDog"
+      :disabled="!selectedDogId"
       aria-label="is pee"
     />
 
@@ -27,17 +29,21 @@
       size="md"
       @click="handleClickTypeButton('poop')"
       :loading="isLoading"
-      :disabled="!selectedDog"
+      :disabled="!selectedDogId"
       aria-label="is poop"
     />
   </div>
-  <latest-excretion :excretions="excretions" class="mt-4" />
+  <latest-excretion
+    v-if="excretionStatus === 'success'"
+    :excretions="excretions"
+    class="mt-4"
+  />
 </template>
 <script setup lang="ts">
 const { t } = useI18n();
 const emit = defineEmits(["submit"]);
-const { selectedDog } = defineProps<{
-  selectedDog: number;
+const { selectedDogId } = defineProps<{
+  selectedDogId: number;
 }>();
 const date = ref<Date>(new Date());
 const toast = useToast();
@@ -49,7 +55,7 @@ const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
   const { data, error } = await useFetch("/api/dog-excretions", {
     method: "POST",
     body: {
-      dog_id: selectedDog,
+      dog_id: selectedDogId,
       location: isOutDoors.value ? "outdoors" : "indoors",
       type: selectedType,
       date: date.value,
@@ -64,9 +70,15 @@ const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
   emit("submit");
 };
 
-const { data: excretions, refresh: refreshLatestExcretion } = await useFetch<
-  dog_excretions[]
->(`/api/${selectedDog}/excretions/latest`, {
-  watch: [() => selectedDog],
-});
+const {
+  data: excretions,
+  refresh: refreshLatestExcretion,
+  status: excretionStatus,
+} = useFetch<dog_excretions[]>(
+  () => `/api/${selectedDogId}/excretions/latest`,
+  {
+    watch: [() => selectedDogId],
+    immediate: true,
+  }
+);
 </script>

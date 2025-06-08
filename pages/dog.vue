@@ -28,7 +28,7 @@
         <graph-excretions :graph-data="selectedDog.graph_view"
       /></template>
       <template #addData="{ item }" v-if="selectedDog?.id">
-        <add-excretions :selected-dog="selectedDog.id" @submit="refresh" />
+        <add-excretions :selected-dog-id="selectedDog.id" @submit="refresh" />
       </template> </UTabs
     ><template #footer>
       <div class="flex justify-between items-center">
