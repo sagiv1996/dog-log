@@ -26,4 +26,8 @@ export default {
   logout: "התנתקות ",
   loginPageTitle: "דף התחברות",
   latestExcretion: "הפעילות האחרונה",
+  add: "הוספה",
+  outdoors: "בחוץ",
+  indoors: "בבית",
+  forDate: "לתאריך",
 };

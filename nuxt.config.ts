@@ -67,4 +67,10 @@ export default defineNuxtConfig({
     lazy: true,
     defaultLocale: "en",
   },
+  dayjs: {
+    locales: ["en", "he"],
+    plugins: ["relativeTime", "utc", "timezone"],
+    defaultLocale: "he",
+    defaultTimezone: "Asia/Jerusalem",
+  },
 });

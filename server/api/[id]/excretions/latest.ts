@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
       .select("*")
       .eq("dog_id", dogId)
       .order("created_at", { ascending: false })
-      .limit(5);
+      .limit(3);
 
     if (error) {
       throw error;

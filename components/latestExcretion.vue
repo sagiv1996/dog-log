@@ -17,20 +17,34 @@
           "
           class="size-5"
         />
-        Add {{ excretion.type }} ({{
-          excretion.location
-        }}) - for
-        {{ $dayjs(excretion.date).utc().format("DD/MM/YYYY HH:mm") }}
+        {{ $t("add") }} {{ $t(excretion.type) }} ({{ $t(excretion.location) }})
+        - {{ $t("forDate") }}
+        {{
+          $dayjs(excretion.date)
+            .utc()
+            .locale($i18n.locale)
+            .format("DD/MM/YYYY HH:mm")
+        }}
 
         <UTooltip
           location="top"
-          :text="$dayjs(excretion.created_at).utc().format('DD/MM/YYYY HH:mm')"
+          :text="
+            $dayjs(excretion.created_at)
+              .utc()
+              .locale($i18n.locale)
+              .format('DD/MM/YYYY HH:mm')
+          "
         >
           <time
-            :datetime="$dayjs(excretion.created_at).utc().toString()"
+            :datetime="
+              $dayjs(excretion.created_at).utc().locale($i18n.locale).toString()
+            "
             class="text-sm text-gray-500"
+            :locale="$i18n.locale"
           >
-            {{ $dayjs(excretion.created_at).utc().fromNow() }}
+            {{
+              $dayjs(excretion.created_at).utc().locale($i18n.locale).fromNow()
+            }}
           </time>
         </UTooltip>
       </UCard>

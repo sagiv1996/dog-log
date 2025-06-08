@@ -26,4 +26,8 @@ export default {
   logout: "Logout ",
   loginPageTitle: "Login page",
   latestExcretion: "Latest Excretion",
+  add: "Add",
+  outdoors: "outdoors",
+  indoors: "indoors",
+  forDate: "for date",
 };
