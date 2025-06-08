@@ -31,7 +31,7 @@
       aria-label="is poop"
     />
   </div>
-  <latest-excretion :selected-dog="selectedDog" class="mt-4" />
+  <latest-excretion :excretions="excretions" class="mt-4" />
 </template>
 <script setup lang="ts">
 const { t } = useI18n();
@@ -43,6 +43,7 @@ const date = ref<Date>(new Date());
 const toast = useToast();
 const isOutDoors = ref<boolean>(true);
 const isLoading = ref(false);
+
 const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
   isLoading.value = true;
   const { data, error } = await useFetch("/api/dog-excretions", {
@@ -59,6 +60,13 @@ const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
   }
   toast.add({ title: t("successMessage") });
   isLoading.value = false;
+  await refreshLatestExcretion();
   emit("submit");
 };
+
+const { data: excretions, refresh: refreshLatestExcretion } = await useFetch<
+  dog_excretions[]
+>(`/api/${selectedDog}/excretions/latest`, {
+  watch: [() => selectedDog],
+});
 </script>

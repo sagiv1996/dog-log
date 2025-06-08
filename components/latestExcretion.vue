@@ -3,7 +3,7 @@
     <template #header>
       <h3 class="text-lg font-medium">{{ $t("latestExcretion") }}</h3>
     </template>
-    <template v-for="excretion in latestExcretion" :key="excretion.id">
+    <template v-for="excretion in excretions" :key="excretion.id">
       <UCard
         :title="excretion.type"
         :icon="
@@ -53,13 +53,9 @@
 </template>
 
 <script setup lang="ts">
-const { selectedDog } = defineProps<{
-  selectedDog: number;
+import type { dog_excretions } from "~/types/database.types";
+
+const { selectedDog, excretions } = defineProps<{
+  excretions: dog_excretions[];
 }>();
-const { data: latestExcretion } = await useFetch(
-  `/api/${selectedDog}/excretions/latest`,
-  {
-    watch: [() => selectedDog],
-  }
-);
 </script>
