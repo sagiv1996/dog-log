@@ -31,6 +31,7 @@
       aria-label="is poop"
     />
   </div>
+  <latest-excretion :selected-dog="selectedDog" class="mt-4" />
 </template>
 <script setup lang="ts">
 const { t } = useI18n();

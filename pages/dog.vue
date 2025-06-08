@@ -61,6 +61,7 @@ type DogRow = Tables<"dog">;
 const { t } = useI18n();
 
 const { data: dogs, refresh, status: dogStatus } = await useFetch("/api/dog");
+
 const toast = useToast();
 const selectedDog = computed(() =>
   dogs.value?.find((dog) => dog.id === selectedDogId.value)

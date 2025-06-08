@@ -24,5 +24,6 @@ export default {
   changeTheme: "שנה ערכת נושא",
   changeLang: "English",
   logout: "התנתקות ",
-  loginPageTitle: 'דף התחברות'
+  loginPageTitle: "דף התחברות",
+  latestExcretion: "הפעילות האחרונה",
 };

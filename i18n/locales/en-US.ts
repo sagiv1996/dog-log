@@ -25,4 +25,5 @@ export default {
   changeLang: "עברית",
   logout: "Logout ",
   loginPageTitle: "Login page",
+  latestExcretion: "Latest Excretion",
 };
