@@ -1,7 +1,5 @@
 <template>
   <div class="grid grid-cols-2 gap-6 justify-items-center">
-    {{ selectedDogId }}
-    {{ excretions }}
     <USwitch
       unchecked-icon="i-heroicons-home"
       checked-icon="i-heroicons-sun"
@@ -49,7 +47,9 @@ const date = ref<Date>(new Date());
 const toast = useToast();
 const isOutDoors = ref<boolean>(true);
 const isLoading = ref(false);
-
+onActivated(() => {
+  date.value = new Date();
+});
 const handleClickTypeButton = async (selectedType: "poop" | "pee") => {
   isLoading.value = true;
   const { data, error } = await useFetch("/api/dog-excretions", {

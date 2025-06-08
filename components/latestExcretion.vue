@@ -21,7 +21,6 @@
         - {{ $t("forDate") }}
         {{
           $dayjs(excretion.date)
-            .utc()
             .locale($i18n.locale)
             .format("DD/MM/YYYY HH:mm")
         }}
@@ -30,20 +29,19 @@
           location="top"
           :text="
             $dayjs(excretion.created_at)
-              .utc()
               .locale($i18n.locale)
               .format('DD/MM/YYYY HH:mm')
           "
         >
           <time
             :datetime="
-              $dayjs(excretion.created_at).utc().locale($i18n.locale).toString()
+              $dayjs(excretion.created_at).locale($i18n.locale).toString()
             "
             class="text-sm text-gray-500"
             :locale="$i18n.locale"
           >
             {{
-              $dayjs(excretion.created_at).utc().locale($i18n.locale).fromNow()
+              $dayjs(excretion.created_at).locale($i18n.locale).fromNow()
             }}
           </time>
         </UTooltip>
