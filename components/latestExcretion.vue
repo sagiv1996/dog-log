@@ -11,21 +11,28 @@
         "
         color="neutral"
       >
-        <template #header>
-          <h3 class="text-lg font-medium">
-            <UIcon
-              :name="
-                excretion.type === 'pee'
-                  ? 'i-heroicons-beaker'
-                  : 'i-heroicons-fire'
-              "
-              class="size-5"
-            />
-            Add {{ excretion.type }} by {{ excretion.handler_id }} ({{
-              excretion.location
-            }}) - for {{ excretion.date }} {{ excretion.created_at }}
-          </h3>
-        </template>
+        <UIcon
+          :name="
+            excretion.type === 'pee' ? 'i-heroicons-beaker' : 'i-heroicons-fire'
+          "
+          class="size-5"
+        />
+        Add {{ excretion.type }} by {{ excretion.handler_id }} ({{
+          excretion.location
+        }}) - for
+        {{ $dayjs(excretion.date).utc().format("DD/MM/YYYY HH:mm") }}
+
+        <UTooltip
+          location="top"
+          :text="$dayjs(excretion.created_at).utc().format('DD/MM/YYYY HH:mm')"
+        >
+          <time
+            :datetime="$dayjs(excretion.created_at).utc().toString()"
+            class="text-sm text-gray-500"
+          >
+            {{ $dayjs(excretion.created_at).utc().fromNow() }}
+          </time>
+        </UTooltip>
       </UCard>
     </template>
   </UCard>

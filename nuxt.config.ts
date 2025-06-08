@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   modules: [
+    "dayjs-nuxt",
     "@nuxtjs/supabase",
     "@nuxt/ui",
     "nuxt-echarts",
@@ -15,6 +16,7 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "@nuxtjs/i18n",
     "@nuxtjs/device",
+    "dayjs-nuxt",
   ],
   css: ["~/assets/css/main.css"],
   supabase: {
