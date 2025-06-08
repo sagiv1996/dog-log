@@ -17,7 +17,7 @@
           "
           class="size-5"
         />
-        Add {{ excretion.type }} by {{ excretion.handler_id }} ({{
+        Add {{ excretion.type }} ({{
           excretion.location
         }}) - for
         {{ $dayjs(excretion.date).utc().format("DD/MM/YYYY HH:mm") }}
